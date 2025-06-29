@@ -90,12 +90,15 @@ const components = {
   ),
   // Table styling for minimalist look
   table: ({ children }) => (
-    <table className="w-full table-auto text-left border-collapse my-8 text-gray-800 dark:text-gray-200">
-      {children}
-    </table>
+    // Added a wrapper div for responsive scrolling and outer table borders/radius
+    <div className="overflow-x-auto my-8 border border-gray-200 dark:border-gray-700 rounded-lg">
+      <table className="w-full text-left border-collapse text-gray-800 dark:text-gray-200">
+        {children}
+      </table>
+    </div>
   ),
   th: ({ children }) => (
-    <th className="px-4 py-3 border-b-2 border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider">
+    <th className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider bg-gray-50 dark:bg-gray-800">
       {children}
     </th>
   ),

@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
+import remarkGfm from "remark-gfm";
 import { notFound } from "next/navigation";
 import MdxViewer from "@/components/MdxViewer"; // Import the new client component
 import Link from "next/link"; // Keep Link for navigation outside MDX content
@@ -32,7 +33,12 @@ async function getPost(slug) {
 
   // Serialize the MDX content for next-mdx-remote
   // This serialization still happens on the server
-  const mdxSource = await serialize(content, { scope: frontmatter });
+  const mdxSource = await serialize(content, {
+    scope: frontmatter,
+    mdxOptions: {
+      remarkPlugins: [remarkGfm],
+    },
+  });
 
   return {
     frontmatter,
