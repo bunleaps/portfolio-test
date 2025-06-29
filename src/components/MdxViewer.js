@@ -1,6 +1,6 @@
-"use client";
+"use client"; // This explicitly marks it as a Client Component
 
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"; // Import dynamic for client-side loading
 
 // Dynamically import MDXRemote with ssr: false to ensure it only runs on the client
 const MDXRemote = dynamic(
@@ -10,19 +10,37 @@ const MDXRemote = dynamic(
   }
 );
 
+// Custom components for MDX rendering, now restyled for minimalism
 const components = {
+  // Example custom component (if you use it in your MDX)
   MyCustomDiv: ({ children }) => (
-    <div className="bg-green-100 dark:bg-green-900 border-l-4 border-green-500 text-green-700 dark:text-green-200 p-4 my-4 rounded-md">
+    <div className="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-200 dark:border-blue-700 text-gray-800 dark:text-gray-200 p-4 my-6 rounded-md">
       {children}
     </div>
   ),
+  // Restyled HTML elements for minimalist look
   h1: ({ children }) => (
-    <h1 className="text-4xl font-extrabold my-6 text-blue-700 dark:text-blue-300">
+    <h1 className="text-4xl md:text-5xl font-extrabold mb-6 mt-12 text-gray-900 dark:text-gray-50 tracking-tight leading-tight">
       {children}
     </h1>
   ),
+  h2: ({ children }) => (
+    <h2 className="text-3xl md:text-4xl font-bold mb-5 mt-10 text-gray-900 dark:text-gray-100 tracking-tight leading-snug">
+      {children}
+    </h2>
+  ),
+  h3: ({ children }) => (
+    <h3 className="text-2xl md:text-3xl font-semibold mb-4 mt-8 text-gray-800 dark:text-gray-200 leading-normal">
+      {children}
+    </h3>
+  ),
+  h4: ({ children }) => (
+    <h4 className="text-xl md:text-2xl font-semibold mb-3 mt-6 text-gray-800 dark:text-gray-200">
+      {children}
+    </h4>
+  ),
   p: ({ children }) => (
-    <p className="text-lg leading-relaxed my-4 text-gray-800 dark:text-gray-200">
+    <p className="text-lg leading-relaxed my-5 text-gray-800 dark:text-gray-200">
       {children}
     </p>
   ),
@@ -35,45 +53,62 @@ const components = {
     </a>
   ),
   ul: ({ children }) => (
-    <ul className="list-disc list-inside ml-4 my-4 text-gray-800 dark:text-gray-200">
+    // Removed list-inside, added pl-6 for proper indentation
+    <ul className="list-disc my-6 text-gray-800 dark:text-gray-200 space-y-2 pl-6">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="list-decimal list-inside ml-4 my-4 text-gray-800 dark:text-gray-200">
+    // Removed list-inside, added pl-6 for proper indentation
+    <ol className="list-decimal my-6 text-gray-800 dark:text-gray-200 space-y-2 pl-6">
       {children}
     </ol>
   ),
-  li: ({ children }) => <li className="mb-1">{children}</li>,
+  li: ({ children }) => <li className="text-lg leading-relaxed">{children}</li>,
+  blockquote: ({ children }) => (
+    <blockquote className="border-l-4 border-gray-200 dark:border-gray-700 pl-6 py-2 italic text-gray-600 dark:text-gray-400 my-8 bg-gray-50 dark:bg-gray-900 rounded-r-lg">
+      {children}
+    </blockquote>
+  ),
   pre: ({ children }) => (
-    <pre className="bg-gray-800 dark:bg-gray-900 text-white p-4 rounded-md overflow-x-auto my-4 text-sm">
+    <pre className="bg-gray-800 dark:bg-gray-900 text-white p-6 rounded-lg overflow-x-auto my-8 text-base font-mono leading-relaxed">
       {children}
     </pre>
   ),
   code: ({ children }) => (
-    <code className="bg-gray-200 dark:bg-gray-700 text-red-600 dark:text-red-300 px-1 py-0.5 rounded-sm text-sm">
+    <code className="bg-gray-200 dark:bg-gray-700 text-red-600 dark:text-red-300 px-1.5 py-0.5 rounded-md text-base font-mono">
       {children}
     </code>
-  ),
-  blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-gray-400 pl-4 italic text-gray-600 dark:text-gray-400 my-4">
-      {children}
-    </blockquote>
   ),
   img: (props) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       {...props}
-      className="max-w-full h-auto rounded-lg shadow-md my-6"
+      className="max-w-full h-auto rounded-lg shadow-md my-10 mx-auto block"
       alt={props.alt || ""}
     />
+  ),
+  // Table styling for minimalist look
+  table: ({ children }) => (
+    <table className="w-full table-auto text-left border-collapse my-8 text-gray-800 dark:text-gray-200">
+      {children}
+    </table>
+  ),
+  th: ({ children }) => (
+    <th className="px-4 py-3 border-b-2 border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="px-4 py-3 border-b border-gray-100 dark:border-gray-800 text-base">
+      {children}
+    </td>
   ),
 };
 
 export default function MdxViewer({ mdxSource }) {
-  // Check if mdxSource is available before rendering MDXRemote
   if (!mdxSource) {
-    return null; // Or a loading spinner, or an error message
+    return null;
   }
   return <MDXRemote {...mdxSource} components={components} />;
 }

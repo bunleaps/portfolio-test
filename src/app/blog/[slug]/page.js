@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { notFound } from "next/navigation";
-import MdxViewer from "../../../components/MdxViewer"; // Import the new client component
+import MdxViewer from "@/components/MdxViewer"; // Import the new client component
 import Link from "next/link"; // Keep Link for navigation outside MDX content
 
 // Define the path to your blog MDX files
@@ -41,7 +41,8 @@ async function getPost(slug) {
 }
 
 export default async function BlogPostPage({ params }) {
-  const { slug } = params;
+  // Await params to ensure it's fully resolved before accessing properties
+  const { slug } = await params; // Added 'await' here
   const post = await getPost(slug);
 
   if (!post) {
@@ -51,12 +52,14 @@ export default async function BlogPostPage({ params }) {
   const { frontmatter, mdxSource } = post;
 
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-white dark:bg-gray-800 shadow-xl rounded-xl">
+    <div className="container mx-auto max-w-3xl px-4 py-12 md:py-16 bg-white dark:bg-gray-950 rounded-lg shadow-sm">
+      {" "}
+      {/* Minimalist outer container */}
       <article className="prose dark:prose-invert max-w-none">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-blue-700 dark:text-blue-300">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-gray-900 dark:text-gray-50 tracking-tight leading-tight">
           {frontmatter.title}
         </h1>
-        <p className="text-center text-gray-500 dark:text-gray-400 mb-8">
+        <p className="text-center text-base text-gray-600 dark:text-gray-400 mb-6">
           Published on{" "}
           {new Date(frontmatter.date).toLocaleDateString("en-US", {
             year: "numeric",
@@ -65,17 +68,53 @@ export default async function BlogPostPage({ params }) {
           })}{" "}
           by {frontmatter.author}
         </p>
-        <div className="border-t border-b border-gray-200 dark:border-gray-700 py-6 mb-8">
+        {/* Display tags for the single post */}
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {" "}
+            {/* More vertical spacing */}
+            {frontmatter.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/blog/tag/${encodeURIComponent(
+                  tag.toLowerCase().replace(/\s+/g, "-")
+                )}`}
+                className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 px-3 py-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        )}
+        <div className="border-t border-b border-gray-100 dark:border-gray-800 py-8 mb-8">
+          {" "}
+          {/* Softer borders, more padding */}
           {/* Render the MDX content using the new Client Component */}
           <MdxViewer mdxSource={mdxSource} />
         </div>
       </article>
-      <div className="text-center mt-10">
+      <div className="text-center mt-12">
+        {" "}
+        {/* More margin top */}
         <Link
           href="/blog"
-          className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl"
+          className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold hover:underline transition-colors duration-200"
         >
-          &larr; Back to all posts
+          <svg
+            className="mr-1 w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+          Back to all posts
         </Link>
       </div>
     </div>
