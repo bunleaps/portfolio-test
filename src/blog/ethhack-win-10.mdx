@@ -1,0 +1,51 @@
+---
+title: From VMs to Real Hardware - Exploiting Windows 10 in a Controlled Classroom Environment 
+date: 2025-03-21 
+author: Bunleap Sorn 
+description: A firsthand account of learning to exploit Windows 10 in a practical, isolated network setup, highlighting the realism and ethical considerations of hands-on penetration testing. 
+tags: ["Ethical Hacking", "Cybersecurity", "Classroom Learning", "Windows 10", "Exploitation", "Metasploit", "Penetration Testing", "Hands-on Learning"]
+---
+
+Hello, everyone! While practicing on virtual machines is incredibly valuable for foundational learning, there's nothing quite like the realism of a hands-on exercise with actual hardware. Our latest class session took this to the next level: instead of just attacking a VM on our own laptops, our lecturer set up a dedicated router and a live Windows 10 machine right in the middle of the classroom. Our task? To identify vulnerabilities and learn how to exploit them, all within a strictly controlled and isolated network.
+
+This setup felt different immediately. The target wasn't just a file on my hard drive; it was a physical machine, blinking lights, connected through a real router. This added a layer of tangible reality that made the entire learning experience much more impactful.
+
+#### The Classroom Battleground Setup
+
+Our lecturer meticulously designed the environment to be completely isolated from the main campus network. We had:
+
+    1. **A Dedicated Router:** This served as the central point for our isolated network, simulating a small office or home network.
+
+    2. **A Windows 10 Machine:** This was our target, configured with specific vulnerabilities (unknown to us initially, of course, mimicking a real scenario).
+
+    3. **Our Kali Linux Laptops:** Our attack platforms, connected to the same isolated network.
+
+The rules were crystal clear: all activity was confined to this setup, and no attempts outside of the designated environment were permitted. This emphasis on ethical boundaries and controlled scope is a cornerstone of responsible penetration testing.
+
+#### The Challenge: From Discovery to Compromise
+
+Our objective was to go through the full lifecycle of a basic penetration test:
+
+1. **Target Discovery:** First, we had to identify the IP address of the Windows 10 machine on the network. Tools like `nmap` were invaluable here, quickly scanning the subnet to find active hosts.
+
+2. **Vulnerability Identification:** This was the critical phase. Knowing it was a Windows 10 machine, we thought about common attack vectors. We used Nmap's `-sV` (version detection) and `-sC` (default scripts) flags to identify open ports and services, looking for potential weaknesses. Our previous knowledge about SMB vulnerabilities (like the ones EternalBlue exploits) immediately came to mind.
+
+3. **Exploit Selection:** Once we identified a likely vulnerable service, the next step was to find an appropriate exploit. This is where Metasploit Framework shone. We learned how to search for modules relevant to our identified service and OS. The lecturer guided us on how to carefully read the module descriptions to ensure it was suitable for our target Windows 10 version.
+
+4. **Exploitation:** With the exploit selected and configured (setting the target IP, payload, and listening host/port), the moment of truth arrived. Executing the exploit within Metasploit and observing the session open was a powerful learning experience. It wasn't just a theoretical concept anymore; it was a tangible demonstration of how a vulnerability could be leveraged to gain unauthorized access.
+
+5. **Post-Exploitation (Basic):** Once we obtained a shell, we performed very basic post-exploitation tasks, like confirming our access level or exploring simple commands, just enough to demonstrate successful compromise without causing any damage.
+
+#### Key Takeaways from a Live Environment
+
+This hands-on exercise with real hardware, rather than just a VM, provided some profound lessons:
+
+- **Realism:** The feel of attacking a discrete, physical machine in an isolated network environment made the concepts of network topology, firewalls, and host-based security far more concrete.
+
+- **Troubleshooting:** We encountered real-world network quirks and had to troubleshoot connectivity and exploit failures, which is invaluable experience you don't always get in a purely virtual environment.
+
+- **The Power of Patching:** This exercise heavily reinforced the importance of promptly applying security patches. The vulnerability we likely exploited was one that would have been mitigated by standard security updates. Seeing it work in a real-world (albeit controlled) scenario made that message resonate much more strongly.
+
+- **Ethical Responsibility:** The controlled environment and strict rules instilled the discipline required for ethical hacking. It's a powerful reminder that these skills come with immense responsibility and must only be used with explicit authorization and within defined scopes.
+
+Successfully gaining access to that Windows 10 machine in the middle of the room, even in a simulated attack, was an electrifying moment. It transformed abstract concepts into tangible skills, preparing us for the complexities and responsibilities of real-world cybersecurity challenges.

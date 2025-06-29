@@ -1,0 +1,31 @@
+---
+title: The Toolbelt for Recon - Diving into Information Gathering 
+date: 2025-02-21 
+author: Bunleap Sorn
+description: A closer look at the specific Kali Linux tools that make information gathering a powerful first step in ethical hacking. 
+tags: ["Ethical Hacking","Cybersecurity", "Classroom Learning", "Information Gathering", "Reconnaissance", "OSINT",  "Kali Linux Tools", "TheHarvester", "Maltego"]
+---
+
+Hello again! Following up on my last post about the crucial phase of information gathering, I wanted to dedicate some time to the specific tools that have truly opened my eyes in class. We're talking about practical applications within Kali Linux that turn passive reconnaissance into a powerful intelligence operation. The objective here is to gather necessary information about the target using these powerful tools. 
+
+#### TheHarvester: Email, User, and Subdomain Hunter
+
+![theHarvester Screenshot](https://web-assets.esetstatic.com/wls/2024/7-2024/harverster-recursos-herramientas.jpeg)
+
+TheHarvester is one of the first tools we got hands-on with, and it's remarkably effective for digging up publicly available information. Its primary function is to gather email accounts, usernames, hostnames, and subdomains associated with a target. 
+
+What makes it so versatile is its support for multiple search engines and platforms. It can pull data from Google, Google Profiles, Bing, PGP, LinkedIn, Yandex, People123, Jigsaw, and even Shodan.  This means instead of manually sifting through each of these sources, TheHarvester automates the process, giving you a consolidated list of potential leads. It's truly a time-saver when you're trying to build an initial profile of an organization's digital footprint.
+
+#### Maltego: Visualizing Connections and Relationships
+
+![Maltego Screenshot](https://cdn.prod.website-files.com/646525ca3b4bb24205edd10d/646525ca3b4bb24205edd28b_maltego%20img%202.webp)
+
+Maltego is where information gathering truly transforms into intelligence. It's described as an open-source intelligence and forensics application that excels at showing how various pieces of information are connected to each other.  This visualization aspect is its superpower.
+
+The core benefit of Maltego is its ability to reveal relationships between different types of information, giving you a better picture of how they are interlinked and even helping to identify previously unknown connections. For instance, it can find relationships between people (including their social profiles, mutual friends), companies, and websites. It's equally powerful for infrastructure, allowing us to gather relationships between domains, DNS names, and netblocks. 
+
+After a simple email and password registration , you gain access to different "palettes" like Infrastructure and Personal. You can drag and drop entities like a domain into your graph and then run "transforms" to discover related information, such as subdomains or mail servers. It can even map out personal connections based on email addresses.
+
+This holistic view that Maltego provides is indispensable. It's not just about collecting data points, but about understanding the intricate web they form, which is crucial for identifying attack vectors and vulnerabilities.
+
+These tools, used effectively, underscore that a significant amount of information about any target is often just waiting to be discovered through diligent reconnaissance. It’s not just about technical hacks; it’s about smart, systematic investigation.

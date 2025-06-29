@@ -1,6 +1,8 @@
 "use client"; // This explicitly marks it as a Client Component
 
 import dynamic from "next/dynamic"; // Import dynamic for client-side loading
+import React from "react";
+import CodeRenderer from "@/components/CodeRenderer"; // Import the CodeRenderer component
 
 // Dynamically import MDXRemote with ssr: false to ensure it only runs on the client
 const MDXRemote = dynamic(
@@ -10,7 +12,7 @@ const MDXRemote = dynamic(
   }
 );
 
-// Custom components for MDX rendering, now restyled for minimalism
+// Custom components for MDX rendering, with minimalist styling
 const components = {
   // Example custom component (if you use it in your MDX)
   MyCustomDiv: ({ children }) => (
@@ -53,13 +55,11 @@ const components = {
     </a>
   ),
   ul: ({ children }) => (
-    // Removed list-inside, added pl-6 for proper indentation
     <ul className="list-disc my-6 text-gray-800 dark:text-gray-200 space-y-2 pl-6">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    // Removed list-inside, added pl-6 for proper indentation
     <ol className="list-decimal my-6 text-gray-800 dark:text-gray-200 space-y-2 pl-6">
       {children}
     </ol>
@@ -70,16 +70,8 @@ const components = {
       {children}
     </blockquote>
   ),
-  pre: ({ children }) => (
-    <pre className="bg-gray-800 dark:bg-gray-900 text-white p-6 rounded-lg overflow-x-auto my-8 text-base font-mono leading-relaxed">
-      {children}
-    </pre>
-  ),
-  code: ({ children }) => (
-    <code className="bg-gray-200 dark:bg-gray-700 text-red-600 dark:text-red-300 px-1.5 py-0.5 rounded-md text-base font-mono">
-      {children}
-    </code>
-  ),
+  // Map all 'code' elements to our CodeRenderer component
+  code: CodeRenderer,
   img: (props) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -90,7 +82,6 @@ const components = {
   ),
   // Table styling for minimalist look
   table: ({ children }) => (
-    // Added a wrapper div for responsive scrolling and outer table borders/radius
     <div className="overflow-x-auto my-8 border border-gray-200 dark:border-gray-700 rounded-lg">
       <table className="w-full text-left border-collapse text-gray-800 dark:text-gray-200">
         {children}

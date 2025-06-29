@@ -1,0 +1,71 @@
+---
+title: From Recon to Root - Case Study on server3.pentest.id
+date: 2025-06-12
+author: Bunleap Sorn
+description: A detailed walkthrough of a recent penetration test, covering initial bypasses, enumeration, and the exploitation of WordPress vulnerabilities and local privilege escalation to achieve root access.
+tags: ["Cybersecurity", "Penetration Testing", "WordPress", "Vulnerability Assessment", "Cloudflare Bypass", "Nmap", "WpScan", "Privilege Escalation", "Ethical Hacking", "Case Study"]
+---
+
+Hello, everyone! Our latest hands-on learning experience culminated in a comprehensive penetration test, and I'm excited to share the insights from the executive report. The primary objective was clear: to obtain root access on a target server (`server3.pentest.id`) initially hidden behind a Cloudflare proxy. This assessment aimed to enumerate services, identify vulnerabilities in the WordPress installation or exposed ports, and then leverage these to escalate privileges to full root control.
+
+This exercise provided a full lifecycle view of a penetration test, from initial bypasses to ultimate system compromise.
+
+### Methodology: Our Approach to the Target
+
+Our strategy was methodical, moving from external reconnaissance to deep system access:
+
+1.  **Bypass Cloudflare:** The first hurdle was bypassing the Cloudflare proxy to identify the origin IP address behind `server3.pentest.id`. We successfully used tools like Censys to locate the direct IP: `http://103.196.152.184`. This crucial step allowed us to directly interact with the server, bypassing Cloudflare's protective layer.
+
+2.  **Enumeration:** With the origin IP in hand, we proceeded with detailed enumeration:
+    * **Nmap:** Used to scan and reveal open ports and running services on the target server.
+    * **WpScan:** Since WordPress was identified, WpScan was employed to check the WordPress version, installed plugins, themes, and users.
+
+3.  **Credential Brute-force:** Based on our enumeration, we identified a potential username (`@admin`). We then used a Python script to generate a custom password list from clues found on the site. This led to a successful login.
+
+### Key Findings: Vulnerabilities Discovered
+
+Our penetration test identified three significant vulnerabilities, each providing a stepping stone towards full system compromise. Here's a summary:
+
+| No. | Vulnerability                                  | Risk Level  | What Affected                                    | Exploit Method                               |
+| :-- | :--------------------------------------------- | :---------- | :----------------------------------------------- | :------------------------------------------- |
+| 1   | Weak Authentication Mechanism                  | OWASP-R2: Medium | `http://103.196.152.184/wp-login.php`              | Brute-force via clue-based password generation |
+| 2   | Authenticated RCE via Plugin/Theme Editor      | OWASP-R3: High   | WordPress Dashboard                              | Reverse shell via PHP code injection         |
+| 3   | Privilege Escalation via Suspicious Executable | OWASP-R4: Critical | Linux Server (`/usr/bin/x86_64-linux-gnu-object`) | Execute potential privilege escalation file  |
+
+Let's delve into each finding:
+
+#### Finding 1: Weak Authentication Mechanism
+
+* **Risk Level:** OWASP-R2: Medium
+* **Affected:** The WordPress login page (`wp-login.php`).
+* **Exploit Method:** Brute-force attack using a password list generated from site-specific clues.
+* **Impact:** We successfully gained access to the WordPress dashboard using identified credentials.
+* **Recommendations:** Implement strong password policies, enable two-factor authentication (2FA), and use brute-force protection mechanisms (e.g., login attempt limits, CAPTCHAs).
+
+#### Finding 2: Authenticated Remote Code Execution (RCE) via Plugin/Theme Editor
+
+* **Risk Level:** OWASP-R3: High
+* **Affected:** The WordPress Dashboard (specifically, the plugin/theme editor functionality).
+* **Exploit Method:** After gaining authenticated access, we injected a PHP reverse shell payload into a plugin file via the WordPress theme/plugin editor. This payload was configured to connect back to our Netcat listener.
+* **Impact:** We achieved a reverse shell on the server with `www-data` user privileges, gaining full control of the server through the admin interface.
+* **Recommendations:** Disable file editing from within the WordPress dashboard (by adding `define('DISALLOW_FILE_EDIT', true);` to `wp-config.php`), ensure strong admin passwords, and limit access to the dashboard from trusted IPs.
+
+#### Finding 3: Privilege Escalation via Suspicious Executable
+
+* **Risk Level:** OWASP-R4: Critical
+* **Affected:** The Linux Server, specifically a suspicious SUID binary at `/usr/bin/x86_64-linux-gnu-object`.
+* **Exploit Method:** During post-exploitation enumeration using tools like `linpeas`, we discovered a non-standard SUID binary (`x86_64-linux-gnu-object`) in `/usr/bin/`. Upon execution, this binary called `setuid(0)` and then executed `/bin/bash`, effectively spawning a root shell.
+* **Impact:** Full root shell access to the target server.
+* **Recommendations:** Regularly audit and remove untrusted or unknown binaries, check `cron` jobs, SUID files, and `PATH` abuse vectors, and rebuild the server from clean backups if root is fully compromised.
+
+### Conclusion
+
+This penetration test on `server3.pentest.id` was an invaluable learning experience. It demonstrated a full attack chain, from initial reconnaissance and bypassing external defenses to leveraging web application vulnerabilities for initial access, and finally, escalating privileges to achieve full root control.
+
+The findings highlight several critical lessons for cybersecurity:
+* **Importance of Strong Authentication:** Weak credentials are still a common entry point.
+* **Securing Web Applications:** WordPress installations require careful hardening, especially disabling sensitive functionalities like file editors.
+* **Vigilance on System Binaries:** Suspicious executables and misconfigurations are often overlooked privilege escalation vectors.
+* **Defense in Depth:** Even with Cloudflare in front, vulnerabilities in the origin server's application and configuration can lead to compromise.
+
+This exercise solidified my understanding of the interconnectedness of different vulnerability types and the methodical approach required for a successful penetration test, ultimately leading to actionable recommendations for improving security posture.

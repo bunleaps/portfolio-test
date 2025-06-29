@@ -36,7 +36,7 @@ export default function BlogListPage() {
   const posts = getBlogPosts();
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+    <div className="container mx-auto max-w-5xl px-4 py-12 md:py-16">
       <h2 className="text-5xl font-extrabold mb-12 text-center text-gray-900 dark:text-gray-50 tracking-tight leading-tight">
         Thoughts & Insights
       </h2>

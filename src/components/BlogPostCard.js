@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function BlogPostCard({ post }) {
   return (
-    <div className="group block bg-white dark:bg-gray-950 p-8 md:p-10 rounded-xl border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <div className="group block bg-white dark:bg-gray-950 p-8 md:p-10 rounded-xl  hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <Link href={`/blog/${post.slug}`} className="block">
         <h3 className="text-3xl font-bold mb-3 text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-200 leading-snug">
           {post.frontmatter.title}

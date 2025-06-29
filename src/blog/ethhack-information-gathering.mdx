@@ -1,0 +1,33 @@
+---
+title: The Art of Reconnaissance - Information Gathering 
+date: 2025-02-19 
+author: Bunleap Sorn 
+description: Exploring the various techniques and tools used to gather crucial information before a security assessment. 
+tags: ["Ethical Hacking", "Cybersecurity", "Classroom Learning", "Information Gathering", "Reconnaissance", "OSINT"]
+---
+
+Greetings, everyone! If target scoping is about defining the battlefield, then **information gathering**, or reconnaissance, is all about understanding the enemy and the terrain. In my ethical hacking class, this phase has been incredibly illuminating, revealing just how much data about a target is publicly available, often without anyone even realizing it.
+
+From my perspective, information gathering is like being a digital detective. Before you even think about picking a lock or casing a joint, you'd want to know who lives there, their habits, the layout of the place, and any potential weaknesses. In cybersecurity, this translates to collecting as much data as possible about our target before we attempt any direct interaction.
+
+We've covered various categories and techniques for information gathering, broadly categorized into:
+
+- **Passive Reconnaissance:** This is where things get really interesting. We learned about collecting information without directly interacting with the target system. Think of it as "looking from afar." This includes:
+
+    - **OSINT (Open-Source Intelligence):** This is a goldmine! We've seen how much information can be gleaned from public sources like Google searches, social media profiles (LinkedIn, Facebook, etc.), public code repositories (GitHub), news articles, and even job postings. You'd be surprised what an attacker can piece together about an organization's technologies, employees, and infrastructure just by doing some diligent searching.
+
+    - **DNS Lookups:** Learning about a target's DNS records can reveal subdomains, mail servers, and even geographical locations. Tools like `dig` and `nslookup` have become quick friends.
+
+    - **WHOIS Lookups:** Discovering domain registration details can sometimes reveal contact information, registrars, and creation/expiration dates, offering valuable clues.
+
+    - **Shodan/Censys:** These search engines for internet-connected devices are incredibly powerful for identifying exposed services, misconfigurations, and even vulnerable devices without directly scanning the target.
+
+- **Active Reconnaissance:** While passive recon is preferred initially, sometimes direct interaction is necessary. This involves sending probes to the target, which might be logged. Examples include:
+
+    - **Network Scanning (Port Scanning):** Using tools like Nmap to identify open ports and services running on a target. This helps us understand what doors are open for potential entry.
+
+    - **Vulnerability Scanning (Initial):** Running light scans to identify obvious vulnerabilities, though this is often a later stage, some initial active checks can provide quick insights.
+
+What truly struck me about this phase is the sheer volume of information that can be collected without firing a single "malicious" packet. It emphasizes the importance of a strong security posture for organizations, not just in terms of technical controls, but also in managing their public digital footprint. Every piece of information gathered, no matter how small, can be a potential lead for an attacker.
+
+This stage truly feels like detective work, meticulously piecing together a puzzle. It's about building a comprehensive profile of the target, identifying potential weaknesses, and formulating a strategy for the next phases of a security assessment.

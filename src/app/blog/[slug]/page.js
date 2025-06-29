@@ -58,7 +58,7 @@ export default async function BlogPostPage({ params }) {
   const { frontmatter, mdxSource } = post;
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12 md:py-16 bg-white dark:bg-gray-950 rounded-lg shadow-sm">
+    <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16 bg-white dark:bg-gray-950 rounded-lg shadow-sm">
       {" "}
       {/* Minimalist outer container */}
       <article className="prose dark:prose-invert max-w-none">

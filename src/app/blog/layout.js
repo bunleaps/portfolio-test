@@ -8,12 +8,12 @@ export default function BlogLayout({ children }) {
       <header className="py-6 border-b border-gray-100 dark:border-gray-800">
         {" "}
         {/* Subtle bottom border */}
-        <div className="container mx-auto max-w-3xl px-4 flex justify-between items-center">
+        <div className="container mx-auto max-w-5xl px-4 flex justify-between items-center">
           <Link
             href="/blog"
             className="text-2xl font-bold text-gray-900 dark:text-gray-50 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
           >
-            My Blog
+            Blog
           </Link>
           <nav>
             <Link
@@ -35,7 +35,7 @@ export default function BlogLayout({ children }) {
         {/* Subtle top border */}
         <div className="container mx-auto max-w-3xl px-4">
           <p>
-            &copy; {new Date().getFullYear()} My MDX Blog. All rights reserved.
+            &copy; {new Date().getFullYear()} Bunleap Sorn. All rights reserved.
           </p>
         </div>
       </footer>

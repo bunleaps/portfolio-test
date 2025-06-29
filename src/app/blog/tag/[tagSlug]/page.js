@@ -69,7 +69,7 @@ export default function TagPage({ params }) {
   });
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+    <div className="container mx-auto max-w-5xl px-4 py-12 md:py-16">
       <h2 className="text-4xl font-extrabold mb-12 text-center text-gray-900 dark:text-gray-50 tracking-tight leading-tight">
         Posts tagged with:{" "}
         <span className="capitalize text-blue-600 dark:text-blue-400">

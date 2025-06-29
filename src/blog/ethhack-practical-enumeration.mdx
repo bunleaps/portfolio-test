@@ -1,0 +1,97 @@
+---
+title: "Practical: Target Discovery and Enumeration - pentest.id"
+date: 2025-03-07 
+author: Bunleap Sorn
+description: A practical walkthrough of identifying target machines, mapping DNS records, and conducting port scans on pentest.id using Kali Linux tools. 
+tags: ["Ethical Hacking", "Cybersecurity", "Classroom Learning", "Target Discovery", "Enumeration", "Case Study"]
+---
+
+Hello, everyone! Building on the discussions about Target Discovery and Enumeration, I recently had the opportunity to put theory into practice on `pentest.id`, a target specifically hosted by my lecturer for us to explore. This hands-on experience truly solidified my understanding of how crucial these initial phases are in any ethical hacking engagement.
+
+The goal was to identify active machines, understand their network footprint, and discover open ports and running services – essentially, to map out the target's online presence.
+
+#### Initial Reconnaissance with DNS
+
+My first step was to gather basic DNS information for `pentest.id`. Using simple `host` commands, I was able to quickly resolve its IP addresses and other associated records.
+
+Here's a summary of the key DNS records I found for `pentest.id`:
+
+| Record Type | Value |Organization/Notes |
+|-------------|-------|-------------------|
+| A | 104.21.0.181, 172.67.128.45 | Cloudflare, Inc. | 
+| AAAA | 2606:4700:3036::ac43:802d, 2606:4700:3034::6815:b5 | Cloudflare, Inc. | 
+| MX | 10 smtp.pentest.id | PT NettoCyber Indonesia, Handles mail service |
+| NS | vera.ns.cloudflare.com, tom.ns.cloudflare.com | Cloudflare manages name servers |
+| SOA | dns.cloudflare.com (MNAME) | Cloudflare's SOA record |
+| TXT | v=spf1 +mx +a +ip4:120.89.92.81~all, v=DMARC1; p=none; | SPF and DMARC records for email security |
+
+This initial DNS reconnaissance painted a clear picture: 
+
+`pentest.id` is actively hosted, uses Cloudflare for its infrastructure, and has dedicated mail services.
+
+#### Deep Dive with Nmap Port Scanning
+
+With the basic DNS information in hand, I moved on to active scanning using Nmap. This is where we start interacting directly with the target to discover open ports and identify services running on them.
+
+Initial Default Scan 
+
+```bash
+nmap pentest.id
+```
+
+My first Nmap scan targeted `pentest.id`'s `172.67.128.45` IP address. It revealed several open TCP ports:
+
+![Nmap Scan](https://i.imgur.com/apf0psi.png)
+
+#### Additional findings
+
+**Subdomains** (x) are accessible
+
+|           Domain           |           Hosting Provider           |      Mail Provider      |
+|:--------------------------:|:------------------------------------:|:-----------------------:|
+| webdisk.pentest.id         | ‐                                    | ‐                       |
+| earth.pentest.id (x)       | PT Berkah Solusi Teknologi Informasi | ‐                       |
+| mx.pentest.id              | ‐                                    | ‐                       |
+| wp1.pentest.id             | ‐                                    | ‐                       |
+| jo1.pentest.id             | ‐                                    | ‐                       |
+| moon.pentest.id            | PT Berkah Solusi Teknologi Informasi | ‐                       |
+| www.pentest.id (x)         | Cloudflare, Inc.                     | ‐                       |
+| mercury.pentest.id (x)     | PT Berkah Solusi Teknologi Informasi | ‐                       |
+| demoapjii.pentest.id       | ‐                                    | ‐                       |
+| cpcontacts.pentest.id      | ‐                                    | ‐                       |
+| webmail.pentest.id         | ‐                                    | ‐                       |
+| class02.pentest.id         | ‐                                    | ‐                       |
+| mdw2.pentest.id            | FranTech Solutions                   | ‐                       |
+| cpanel.pentest.id          | ‐                                    | ‐                       |
+| mars.pentest.id (x) nginx  | Cloudflare, Inc.                     | ‐                       |
+| class01.pentest.id         | ‐                                    | ‐                       |
+| pentest.id (x)             | Cloudflare, Inc.                     | PT NettoCyber Indonesia |
+| venus.pentest.id           | PT Biznet Gio Nusantara              | ‐                       |
+| smtp.pentest.id (x) cPanel | PT NettoCyber Indonesia              | ‐                       |
+| sun.pentest.id (x) Apache2 | PT Berkah Solusi Teknologi Informasi | ‐                       |
+| hackme.pentest.id          | ‐                                    | ‐                       |
+| cpcalendars.pentest.id     | ‐                                    | ‐                       |
+| www.jo1.pentest.id         | ‐                                    | ‐                       |
+| mail.pentest.id            | ‐                                    | ‐                       |
+
+**Screenshot**
+
+pentest.id
+![pentest id](https://i.imgur.com/uq0gImy.png)
+
+mercury.pentest.id
+![mercury](https://i.imgur.com/Gjre1Oy.png)
+
+earth.pentest.id
+![earth.pentest.id](https://i.imgur.com/7BzXKsC.png)
+
+mars.pentest.id
+![mars](https://i.imgur.com/4pm1YF8.png)
+
+sun.pentest.id
+![sun](https://i.imgur.com/U35Ke6s.png)
+
+smtp.pentest.id
+![smtp](https://i.imgur.com/qPAyWrN.png)
+
+This practical exercise on `pentest.id` was incredibly insightful. It demonstrated how even a relatively simple domain can reveal a wealth of information through careful target discovery and enumeration. The extensive use of Cloudflare is prominent, protecting and proxying many of the services. The various open ports indicate a number of accessible services, even if some detailed versions remained elusive. This kind of hands-on reconnaissance is vital for understanding a target's attack surface before moving on to more intrusive phases of a penetration test. Every piece of information, from DNS records to open ports and service headers, builds a more complete picture for a security assessment.

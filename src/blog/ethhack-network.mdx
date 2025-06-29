@@ -1,0 +1,76 @@
+---
+title: Peering into the Network - Target Discovery and Enumeration 
+date: 2025-02-28 
+author: Bunleap Sorn
+description: Exploring the methods and tools in Kali Linux to identify target machines, fingerprint operating systems, and perform port scanning. 
+tags: ["Ethical Hacking", "Cybersecurity", "Classroom Learning", "Target Discovery", "Enumeration", "OS Fingerprinting", "Port Scanning", "Kali Linux", "Nmap", "TCP/UDP"]
+---
+
+Greetings, everyone! Fresh from my latest cybersecurity class, I'm excited to share insights into what comes after the initial information gathering: **Target Discovery and Enumeration**. This phase is all about actively identifying machines on a network, figuring out what operating systems they're running, and then systematically scanning their ports to find open services. It's like moving from aerial reconnaissance to a detailed ground survey of the target environment.
+
+#### Identifying the Target Machine
+
+The first step in target discovery is simply finding out which machines are alive and responsive on a network. We learned about several tools available in Kali Linux for this purpose:
+
+- **Ping, Arping, Fping, Hping, Nping:** These are fundamental tools used to send various types of ICMP (Internet Control Message Protocol) packets to determine if a host is active. They differ in their advanced capabilities, like sending custom packets or scanning multiple hosts rapidly.
+- **Alive6 & Detect-new-ip6:** Specifically designed for IPv6 environments, these tools help identify active hosts in the increasingly prevalent IPv6 networks.
+- **Passive_discovery & Nbtscan:** These offer alternative or supplementary methods for identifying targets, with `nbtscan` being particularly useful for NetBIOS over TCP/IP enumeration in Windows environments.
+
+These tools allow us to generalize the findings of the target discovery technique, painting a picture of active devices.
+
+#### OS Fingerprinting: Knowing Your Adversary's System
+
+Once we identify active machines, the next crucial step is 
+
+**OS Fingerprinting** – determining the operating system of the target machine. This is vital because vulnerabilities and attack vectors often depend heavily on the OS. We discussed two main approaches:
+
+- **Active Fingerprinting:** This method involves sending specific network packets to the target and analyzing the responses to determine the OS. It's fast but has a noticeable presence on the network, as you are directly interacting with the target. 
+
+    **Nmap** is a prime example of an active fingerprinting tool.
+
+- **Passive Fingerprinting:** This approach is slower but stealthier. Tools like 
+
+    **P0f** analyze network traffic that passes through your machine (e.g., in SYN mode for machines connecting to you, or SYN+ACK mode for machines you connect to) to deduce the OS without sending explicit probes. This is less noticeable because you're simply observing existing traffic rather than initiating new connections.
+
+![OS Fingerprinting Screenshot](https://www.researchgate.net/publication/304605252/figure/fig1/AS:605982212239360@1521488826600/Taxonomy-of-OS-fingerprinting-tools.png)
+
+#### Port Scanning: Mapping the Open Doors
+
+After knowing which machines are alive and what OS they're likely running, we move to **Port Scanning**. This involves determining the TCP and UDP ports that are open on a target. An "open port" means a network service is listening on it, potentially indicating an entry point or a service that can be further investigated for vulnerabilities.
+
+We reviewed the fundamental characteristics of TCP and UDP protocols, which are essential for understanding how port scanning works:
+
+- **TCP (Transmission Control Protocol):** This is a connection-oriented and reliable protocol. Before data is sent, a **three-way handshake** establishes a connection:
+
+    1. The client sends a SYN (synchronize) flag. 
+    2. The server replies with SYN+ACK (synchronize-acknowledgment). 
+    3. The client acknowledges with an ACK. 
+        
+        TCP uses sequence numbers and acknowledgments to ensure reliable data transfer, reordering segments if they arrive out of order, and retransmitting lost packets. To terminate a connection, a FIN (finish) flag is sent, followed by ACK acknowledgments from both sides.
+        
+    During a TCP port scan, different responses indicate port states:
+
+    - **SYN+ACK:** Port is open.
+    - **RST+ACK:** Port is closed.
+    - **ICMP Port Unreachable:** Port is likely blocked by a firewall.
+    - **No response:** Could be a filtered port or a dropped packet.
+
+![TCP Screenshot](https://afteracademy.com/images/what-is-a-tcp-3-way-handshake-process-three-way-handshaking-establishing-connection-6a724e77ba96e241.jpg)
+
+- **UDP (User Datagram Protocol):** This is a connectionless and unreliable protocol. Data is sent without establishing a connection first. If a packet is lost, UDP does not automatically retransmit it; it's up to the application. Examples include DNS, DHCP, and SNMP.
+
+    For a UDP port scan, responses help determine the port status:
+
+    - **UDP packet response:** Port is open.
+    - **ICMP Port Unreachable:** Port is closed (if no ICMP unreachable, it might be filtered by a firewall).
+    - **No response:** Could mean the port is closed, the inbound packet is blocked, or the response is blocked.
+
+![UDP Screenshot](https://media.geeksforgeeks.org/wp-content/uploads/20240226104348/UDP-gif.gif)
+
+#### Network Scanning Tools
+
+For the actual network scanning tasks, 
+
+**Nmap** stands out as the go-to tool. It's incredibly versatile, offering various options for target specification, TCP/UDP scan types, output formats, and timing controls. We also touched upon **Unicornscan** and **Zenmap** (a graphical front-end for Nmap) as well as Amap.
+
+This session has truly elevated my understanding of how we systematically approach a target from a network perspective. It’s about more than just finding devices; it’s about understanding their characteristics and vulnerabilities to inform subsequent steps in an ethical hacking engagement.
